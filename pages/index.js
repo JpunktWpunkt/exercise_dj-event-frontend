@@ -1,9 +1,16 @@
-import Link from "next/link";
+import Head from "next/head";
+import Layout from "../components/Layout";
 
-export default function Home() {
+export default function HomePage() {
     return (
-        <div>
+        <Layout>
+            <Head>
+                <title>
+                    DJ Events
+                    <meta name="description" content="Welcome to DJ Events"/>
+                </title>
+            </Head>
             <h1>Home</h1>
-        </div>
+        </Layout>
     )
 }
