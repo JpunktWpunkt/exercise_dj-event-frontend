@@ -2,7 +2,7 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import {API_URL} from '@/config/index';
 
-export default function HomePage() {
+export default function HomePage(events) {
     return (
         <Layout>
             <Head>
@@ -23,6 +23,6 @@ export async function getServerSideProps() {
     const events = await response.json()
     console.log(events)
     return {
-        props: {},
+        props: {events},
     }
 }
