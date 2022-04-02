@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from 'next/link';
 import EventItem from '@/components/EventItem';
 import Layout from "@/components/Layout";//this way would be configure in jsconfig.json
 import {API_URL} from '@/config/index'; //this way would be configure in jsconfig.json
@@ -13,11 +14,17 @@ export default function HomePage({events}) {
                     <meta name="description" content="Welcome to DJ Events"/>
                 </title>
             </Head>
-            <h1> Events</h1>
+            <h1>Upcoming Events</h1>
             {events.length === 0 && <h3>No events to show</h3>}
             {events.map((evt) => (
                 <EventItem key={evt.id} evt={evt}/>
             ))}
+
+            {events.length > 0 && (
+                <Link href='/events'>
+                    <a className='btn-secondary'>View all Events</a>
+                </Link>
+            )}
         </Layout>
     )
 
@@ -29,7 +36,7 @@ export async function getStaticProps() {
     const events = await response.json()
     console.log(events)
     return {
-        props: {events},
+        props: {events: events.slice(0, 3)},
         revalidate: 1,
     }
 }
