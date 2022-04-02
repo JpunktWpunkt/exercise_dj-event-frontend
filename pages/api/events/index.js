@@ -3,7 +3,7 @@ const {events} = require('./data.json');
 
 
 export default function handler(request, response) {
-    const evt = events.filter(event => event.slug === request.query.slug)
+    /* const evt = events.filter(event => event.slug === request.query.slug)*/
 
 
     if (request.method === 'GET') {

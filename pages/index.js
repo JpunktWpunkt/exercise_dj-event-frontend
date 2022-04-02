@@ -1,6 +1,7 @@
 import Head from "next/head";
+import EventItem from '@/components/EventItem';
 import Layout from "@/components/Layout";//this way would be configure in jsconfig.json
-import {API_URL} from '@/config/index'; //this way would be configure in jsconfig.jso
+import {API_URL} from '@/config/index'; //this way would be configure in jsconfig.json
 
 export default function HomePage({events}) {
     console.log(events)
@@ -12,9 +13,10 @@ export default function HomePage({events}) {
                     <meta name="description" content="Welcome to DJ Events"/>
                 </title>
             </Head>
-            <h1>Upcoming Events</h1>
+            <h1> Events</h1>
             {events.length === 0 && <h3>No events to show</h3>}
-            {events.map(evt => (<h3 key={evt.id}>{evt.name}</h3>
+            {events.map((evt) => (
+                <EventItem key={evt.id} evt={evt}/>
             ))}
         </Layout>
     )
