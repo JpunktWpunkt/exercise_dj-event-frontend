@@ -35,7 +35,7 @@ const EventPage = ({evt}) => {
             <h1>{evt.attributes.name}</h1>
             {evt.attributes.image && (
                 <div className={styles.image}>
-                    <Image src={evt.image.data.attributes.formats.medium.url} width={960} height={600}
+                    <Image src={evt.attributes.image.data.attributes.formats.medium.url} width={960} height={600}
                            alt="Image description"/>
                 </div>
             )}
@@ -56,8 +56,21 @@ const EventPage = ({evt}) => {
 
 export default EventPage;
 
+
 export async function getServerSideProps({query: {slug}}) {
-    const url = `${API_URL}/api/events?slug=${slug}`;
+    const qs = require('qs');
+    const query = qs.stringify({
+        filters: {
+            slug: {
+                $eq: `${slug}`,
+            },
+        },
+    }, {
+        encodeValuesOnly: true,
+    });
+
+
+    const url = `${API_URL}/api/events?${query}&populate=*`;
     console.log(url)
     const response = await fetch(url)
     const events = await response.json()
