@@ -16,18 +16,18 @@ export default function EventsPage({events}) {
             <h1> Events</h1>
             {events.length === 0 && <h3>No events to show</h3>}
             {events.map((evt) => (
-                <EventItem key={evt.id} evt={evt}/>
+                <EventItem key={evt.id} evt={evt.attributes}/>
             ))}
         </Layout>
     )
-
 }
 
 
 export async function getStaticProps() {
-    const response = await fetch(`${API_URL}/api/events`)
-    const events = await response.json()
-    console.log(events)
+    const response = await fetch(`${API_URL}/api/events?populate=*&_sort=date:ASC`)
+    const eventsData = await response.json()
+    const events = eventsData.data;
+    console.log('events: ', events)
     return {
         props: {events},
         revalidate: 1,

@@ -7,11 +7,12 @@ import styles from '@/styles/Event.module.css'
 import Image from 'next/image';
 
 const EventPage = ({evt}) => {
+    console.log('slug.js line 10 evt: ', evt)
     const router = useRouter() //create a const router to use Router ^^
     const deleteEvent = (event) => {
         console.log('delete')
     }
-    console.log(router) //a lot of information about p.e. pathname usw....
+    console.log('test: ', router) //a lot of information about p.e. pathname usw....
     return (
         <Layout>
             <div className="styles.event">
@@ -29,20 +30,21 @@ const EventPage = ({evt}) => {
             </div>
             <h3>{router.query.slug}</h3>
             <span>
-                {evt.date} at {evt.time}
+               {new Date(evt.attributes.date).toLocaleDateString('en-US')} at {evt.attributes.time}
             </span>
-            <h1>{evt.name}</h1>
-            {evt.image && (
+            <h1>{evt.attributes.name}</h1>
+            {evt.attributes.image && (
                 <div className={styles.image}>
-                    <Image src={evt.image} width={960} height={600}/>
+                    <Image src={evt.image.data.attributes.formats.medium.url} width={960} height={600}
+                           alt="Image description"/>
                 </div>
             )}
             <h3>Performers:</h3>
-            <p>{evt.performers}</p>
+            <p>{evt.attributes.performers}</p>
             <h3>Description:</h3>
-            <p>{evt.description}</p>
-            <h3>Venue: {evt.venue}</h3>
-            <p>{evt.adress}</p>
+            <p>{evt.attributes.description}</p>
+            <h3>Venue: {evt.attributes.venue}</h3>
+            <p>{evt.attributes.adress}</p>
 
             <Link href="/events">
                 <a className={styles.back}>Go back</a>
@@ -54,22 +56,22 @@ const EventPage = ({evt}) => {
 
 export default EventPage;
 
-export async function getStaticPaths() {
-    const response = await fetch(`${API_URL}/api/events `)
+export async function getServerSideProps({query: {slug}}) {
+    const url = `${API_URL}/api/events?slug=${slug}`;
+    console.log(url)
+    const response = await fetch(url)
     const events = await response.json()
-
-    const paths = events.map((evt) => ({
-        params: {slug: evt.slug}
-    }))
+    console.log(events.data[0])
     return {
-        paths,
-        fallback: true,
+        props: {
+            evt: events.data[0],
+        },
     }
 }
 
-export async function getStaticProps({params: {slug}}) {
+/*export async function getStaticProps({params: {slug}}) {
     console.log(slug)
-    const response = await fetch(`${API_URL}/api/events/${slug}`)
+    const response = await fetch(`${API_URL}/events?slug=${slug}`)
     const events = await response.json()
 
 
@@ -80,7 +82,7 @@ export async function getStaticProps({params: {slug}}) {
         revalidate: 1
 
     }
-}
+}*/
 
 
 /*
