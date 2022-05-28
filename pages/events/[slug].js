@@ -6,6 +6,7 @@ import {FaPencilAlt, FaTimes} from 'react-icons/fa';
 import styles from '@/styles/Event.module.css'
 import Image from 'next/image';
 
+
 const EventPage = ({evt}) => {
     console.log('slug.js line 10 evt: ', evt)
     const router = useRouter() //create a const router to use Router ^^
