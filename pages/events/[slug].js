@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import Layout from '@/components/Layout';
 import {API_URL} from '@/config/index';
-import Link from 'next/Link';
+import Link from 'next/link';
 import {FaPencilAlt, FaTimes} from 'react-icons/fa';
 import styles from '@/styles/Event.module.css'
 import Image from 'next/image';
